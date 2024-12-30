@@ -1,0 +1,3 @@
+spring:
+  application:
+    name: items_inventory_service
