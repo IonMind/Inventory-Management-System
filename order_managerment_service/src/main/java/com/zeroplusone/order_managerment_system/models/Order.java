@@ -2,8 +2,6 @@ package com.zeroplusone.order_managerment_system.models;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -37,8 +35,7 @@ public class Order {
 
     @NotNull
     @Setter(value = AccessLevel.NONE)
-    @Embedded
-    private Item item;
+    private Long itemId;
 
     @NotNull
     @Setter(value = AccessLevel.NONE)
@@ -52,6 +49,38 @@ public class Order {
     @PrePersist
     public void prePersist() {
         this.purchaseDate = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+    }
+
+    public Boolean changeStatus(STATUS newStatus) {
+        Boolean isStatusConditionSatisfied = false;
+        switch (newStatus) {
+            case CANCELLED:
+                if (this.status == STATUS.PLACED || this.status == STATUS.SHIPPING) {
+                    isStatusConditionSatisfied = true;
+                }
+                break;
+            case DELIVERED:
+                if (this.status == STATUS.SHIPPING) {
+                    isStatusConditionSatisfied = true;
+                }
+                break;
+            case SHIPPING:
+                if (this.status == STATUS.PLACED) {
+                    isStatusConditionSatisfied = true;
+                }
+                break;
+            case RETURNED:
+                if (this.status == STATUS.DELIVERED) {
+                    isStatusConditionSatisfied = true;
+                }
+            default:
+                break;
+        }
+        if (isStatusConditionSatisfied) {
+            this.setStatus(newStatus);
+        }
+
+        return isStatusConditionSatisfied;
     }
 
 }

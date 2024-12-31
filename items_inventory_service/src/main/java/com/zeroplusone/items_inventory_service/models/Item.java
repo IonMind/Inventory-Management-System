@@ -47,7 +47,7 @@ public class Item {
 
     public Item updateItem(Double newPrice, Integer updatedStock) {
         if (newPrice != null) {
-            if (newPrice > 0) {
+            if (newPrice >= 0) {
                 this.setPrice(newPrice);
             }
         }

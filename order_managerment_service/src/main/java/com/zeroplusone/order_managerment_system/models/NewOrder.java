@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class NewOrder {
-    String itemName;
+    Long itemId;
     String deliveryAddress;
 }

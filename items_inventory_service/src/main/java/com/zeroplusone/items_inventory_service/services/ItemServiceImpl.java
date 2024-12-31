@@ -28,6 +28,7 @@ public class ItemServiceImpl implements ItemService {
 
     // @SuppressWarnings("null")
     @Override
+    @Transactional
     public Item updateItem(Long id, Double newPrice, Integer updatedStock) {
         if (newPrice == null && updatedStock == null) {
 
