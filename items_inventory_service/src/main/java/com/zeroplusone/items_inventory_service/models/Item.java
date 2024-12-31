@@ -52,7 +52,7 @@ public class Item {
             }
         }
         if (updatedStock != null) {
-            if (updatedStock > 0) {
+            if (updatedStock >= 0) {
                 this.setStock(updatedStock);
             }
         }
