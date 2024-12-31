@@ -1,3 +1,16 @@
 spring:
   application:
     name: items_inventory_service
+  datasource:
+    url: jdbc:h2:mem:Itemsdb       
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+  jpa:
+    # database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+  h2:
+    console.enabled: true
+
+server:
+  port: 8002
