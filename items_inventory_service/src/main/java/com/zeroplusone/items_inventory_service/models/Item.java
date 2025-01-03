@@ -8,6 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -22,6 +24,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Data
+@Table(uniqueConstraints = @UniqueConstraint(columnNames={"name", "price"}))
 public class Item {
 
     @Id

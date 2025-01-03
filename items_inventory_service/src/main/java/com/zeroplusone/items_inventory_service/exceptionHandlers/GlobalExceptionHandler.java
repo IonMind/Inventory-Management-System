@@ -29,9 +29,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(exception = Exception.class)
     public ResponseEntity<?> handleAllExceptions(Exception ex) {
-        System.err.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
-        ex.printStackTrace();
-        System.err.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
         return ResponseEntity.badRequest().body(appName+" :Exception => " + ex.getMessage());
     }
 }

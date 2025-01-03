@@ -2,13 +2,17 @@ spring:
   application:
     name: items_inventory_service
   datasource:
-    url: jdbc:h2:mem:Itemsdb       
-    username: sa
-    password: password
-    driverClassName: org.h2.Driver
+    url: jdbc:mysql://localhost:3007/items_db
+    # url: jdbc:h2:mem:Itemsdb       
+    username: nonroot
+    password: notsafe##db
+    driverClassName: com.mysql.cj.jdbc.Driver
+    # driverClassName: org.h2.Driver
   jpa:
     # database-platform: org.hibernate.dialect.H2Dialect
     show-sql: true
+    hibernate:
+      ddl-auto: create
   h2:
     console.enabled: true
 
