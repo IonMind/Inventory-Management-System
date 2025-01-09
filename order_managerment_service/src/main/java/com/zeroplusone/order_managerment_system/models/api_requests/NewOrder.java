@@ -1,4 +1,4 @@
-package com.zeroplusone.order_managerment_system.models;
+package com.zeroplusone.order_managerment_system.models.api_requests;
 
 
 import lombok.Getter;

@@ -4,10 +4,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.zeroplusone.order_managerment_system.models.NewOrder;
 import com.zeroplusone.order_managerment_system.models.Order;
 import com.zeroplusone.order_managerment_system.models.Order.STATUS;
+import com.zeroplusone.order_managerment_system.models.api_requests.NewOrder;
 import com.zeroplusone.order_managerment_system.services.OrderService;
+
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +27,7 @@ public class OrderController {
     @Autowired
     OrderService orderService;
 
-    @PostMapping(path = "/save")
+    @PostMapping(path = "/placeorder")
     public ResponseEntity<Order> placeOrder(@RequestBody NewOrder newOrder) {
 
         return ResponseEntity.ok().body(orderService.placeOrder(newOrder));
@@ -41,4 +44,9 @@ public class OrderController {
         return ResponseEntity.ok().body(orderService.getOrderDetails(orderId));
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<List<Order>> getAllOrders() {
+        return ResponseEntity.ok().body(orderService.getAllOrders());
+    }
+    
 }

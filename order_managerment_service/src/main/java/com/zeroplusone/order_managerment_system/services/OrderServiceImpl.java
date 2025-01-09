@@ -1,14 +1,15 @@
 package com.zeroplusone.order_managerment_system.services;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.zeroplusone.order_managerment_system.Utils.Helpers;
-import com.zeroplusone.order_managerment_system.models.NewOrder;
 import com.zeroplusone.order_managerment_system.models.Order;
 import com.zeroplusone.order_managerment_system.models.Order.STATUS;
+import com.zeroplusone.order_managerment_system.models.api_requests.NewOrder;
 import com.zeroplusone.order_managerment_system.models.api_responses.Item;
 import com.zeroplusone.order_managerment_system.repositories.OrderRepository;
 
@@ -88,6 +89,11 @@ public class OrderServiceImpl implements OrderService {
                 .retrieve()
                 .toBodilessEntity().getStatusCode().is2xxSuccessful();
 
+    }
+
+    @Override
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
     }
 
 }

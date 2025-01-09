@@ -1,5 +1,7 @@
 package com.zeroplusone.items_inventory_service.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,6 +46,11 @@ public class ItemController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> deleteItem(@PathVariable Long id){
         return ResponseEntity.ok().body("Following Item is delete \n "+itemService.deleteItem(id));
+    }
+    
+    @GetMapping("/all")
+    public ResponseEntity<List<Item>> getAllOrders() {
+        return ResponseEntity.ok().body(itemService.getAllItems());
     }
     
 }

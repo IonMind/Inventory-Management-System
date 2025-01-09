@@ -1,5 +1,6 @@
 package com.zeroplusone.items_inventory_service.services;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,11 @@ public class ItemServiceImpl implements ItemService {
 
     private Item findBy(Long id) {
         return itemRepository.findById(id).orElseThrow(() -> new NoSuchElementException("No Item with id : " + id));
+    }
+
+    @Override
+    public List<Item> getAllItems() {
+       return itemRepository.findAll();
     }
 
 }
