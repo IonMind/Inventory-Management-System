@@ -6,11 +6,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.zeroplusone.data_excel_service.services.ExcelService;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
+
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -26,27 +25,24 @@ public class ExcelController {
     ExcelService excelService;
 
     @GetMapping("/items")
-    public ResponseEntity<ByteArrayResource> downloadItems() throws IOException {
+    public ResponseEntity<Resource> downloadItems() throws IOException {
 
-        ByteArrayResource resource = new ByteArrayResource(
-                Files.readAllBytes(Paths.get(excelService.downloadAllItemsInExcel().getAbsolutePath())));
-        // Resource
-
-        return ResponseEntity.ok().contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+        return ResponseEntity.ok()
+                .contentType(
+                        MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=items.xlsx")
-                .body(resource);
+                .body(new ByteArrayResource(excelService.downloadAllItemsInExcel().toByteArray()));
 
     }
 
     @GetMapping("/orders")
     public ResponseEntity<ByteArrayResource> downloadOrders() throws IOException {
 
-        ByteArrayResource resource = new ByteArrayResource(
-                Files.readAllBytes(Paths.get(excelService.downloadAllOrdersInExcel().getAbsolutePath())));
-
-        return ResponseEntity.ok().contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=items.xlsx")
-                .body(resource);
+        return ResponseEntity.ok()
+                .contentType(
+                        MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=orders.xlsx")
+                .body(new ByteArrayResource(excelService.downloadAllOrdersInExcel().toByteArray()));
 
     }
 

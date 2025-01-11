@@ -1,10 +1,10 @@
 package com.zeroplusone.data_excel_service.services;
 
-import java.io.File;
+import java.io.ByteArrayOutputStream;
 
 public interface ExcelService {
 
-    public File downloadAllOrdersInExcel();
+    public ByteArrayOutputStream downloadAllOrdersInExcel();
 
-    public File downloadAllItemsInExcel();
+    public ByteArrayOutputStream downloadAllItemsInExcel();
 }

@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Getter
 public class Item implements ApiResponse {
-    public Long Id;
+    public Long id;
     public String name;
     public Double price;
     public Integer stock;
@@ -15,7 +15,7 @@ public class Item implements ApiResponse {
     public Boolean isItemDeleted;
 
     public List<String> getAllValuesInListString() {
-        return List.of(""+Id, name, price.toString(), stock.toString(), creationDate.toString(),
+        return List.of(""+id, name, price.toString(), stock.toString(), creationDate.toString(),
                 isItemDeleted.toString());
     }
 }

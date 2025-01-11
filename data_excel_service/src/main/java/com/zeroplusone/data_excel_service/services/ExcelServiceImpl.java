@@ -1,10 +1,9 @@
 package com.zeroplusone.data_excel_service.services;
 
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.ByteArrayOutputStream;
+
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.time.LocalDateTime;
 
 import java.util.List;
 import java.util.ListIterator;
@@ -16,26 +15,24 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
-
+    
 import com.zeroplusone.data_excel_service.models.ApiResponse;
 import com.zeroplusone.data_excel_service.models.Item;
 import com.zeroplusone.data_excel_service.models.Order;
 
-// import jakarta.persistence.criteria.CriteriaBuilder.In;
-
 @Service
 public class ExcelServiceImpl implements ExcelService {
-    
+
     @Override
-    public File downloadAllOrdersInExcel() {
+    public ByteArrayOutputStream downloadAllOrdersInExcel() {
         RestClient restClient = RestClient.builder().baseUrl("http://localhost:8001").build();
         return createExcel(restClient.get().uri("/orders/all").retrieve()
-        .body(new ParameterizedTypeReference<List<Order>>() {
-        }));
+                .body(new ParameterizedTypeReference<List<Order>>() {
+                }));
     }
 
     @Override
-    public File downloadAllItemsInExcel() {
+    public ByteArrayOutputStream downloadAllItemsInExcel() {
         RestClient restClient = RestClient.builder().baseUrl("http://localhost:8002").build();
         return createExcel(restClient.get().uri("/item/all").retrieve()
                 .body(new ParameterizedTypeReference<List<Item>>() {
@@ -45,13 +42,12 @@ public class ExcelServiceImpl implements ExcelService {
 
     ///// Creating Generic Excel
     /// for Items and Orders
-    ///
-    ///
-    private <T extends ApiResponse> File createExcel(List<T> list) {
+    /// for api requests
+    private <T extends ApiResponse> ByteArrayOutputStream createExcel(List<T> list) {
         if (list.isEmpty()) {
             throw new IllegalArgumentException("No Data to export");
         }
-
+        ByteArrayOutputStream byteOutputExcel = new ByteArrayOutputStream();
         Class<? extends Object> pojoClass = list.get(0).getClass();
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet(pojoClass.getSimpleName());
@@ -72,20 +68,16 @@ public class ExcelServiceImpl implements ExcelService {
             }
 
         }
-        File file = new File(
-                "/mnt/c/Users/achaud54/Desktop/Items_temp_" + LocalDateTime.now().toString() + ".xlsx");
-        try {
 
-            workbook.write(new FileOutputStream(file));
+        try {
+            workbook.write(byteOutputExcel);
             workbook.close();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IllegalArgumentException(e.getMessage());
         }
-        
-        return file;
+
+        return byteOutputExcel;
     }
-
-
 
 }
