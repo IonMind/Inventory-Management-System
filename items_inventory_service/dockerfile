@@ -1,0 +1,15 @@
+FROM maven:3.9.9-eclipse-temurin-21 as buildstage
+WORKDIR /opt/build
+COPY pom.xml .
+RUN mvn dependency:go-offline
+COPY ./src ./src
+RUN mvn clean install -Dmaven.test.skip=true    
+EXPOSE 8002 9000
+
+
+FROM eclipse-temurin:21-ubi9-minimal
+ENV SERVICE_NAME="items_inventory_service" SPRING_PROFILES_ACTIVE="docker" JDBC_URL="jdbc:mysql://localhost:3007/items_db" \
+    JDBC_USER="nonroot" JDBC_PASS="notsafe##db" INTERNAL_API_PORT="9000" PUBLIC_API_PORT="8002"
+COPY --from=buildstage /opt/build/target/*.jar /app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
+EXPOSE 8002 9000
