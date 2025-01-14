@@ -33,8 +33,8 @@ public class ExcelServiceImpl implements ExcelService {
 
     @Override
     public ByteArrayOutputStream downloadAllItemsInExcel() {
-        RestClient restClient = RestClient.builder().baseUrl("http://localhost:8002").build();
-        return createExcel(restClient.get().uri("/item/all").retrieve()
+        RestClient restClient = RestClient.builder().baseUrl("http://localhost:9000/internal").build();
+        return createExcel(restClient.get().uri("/items/all").retrieve()
                 .body(new ParameterizedTypeReference<List<Item>>() {
                 }));
 
